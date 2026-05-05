@@ -1,0 +1,124 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f9;
+    margin: 0;
+    padding: 0;
+}
+
+/* Center container */
+.container {
+    width: 350px;
+    margin: 80px auto;
+    padding: 25px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* Headings */
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Inputs */
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Buttons */
+button {
+    width: 100%;
+    padding: 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+/* Links */
+a {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    text-decoration: none;
+    color: #007bff;
+}
+
+/* Dashboard */
+.dashboard {
+    width: 90%;
+    margin: 30px auto;
+}
+
+/* Stats cards */
+.stats {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.card {
+    flex: 1;
+    padding: 15px;
+    background: white;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 0 8px rgba(0,0,0,0.1);
+}
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+th {
+    background: #007bff;
+    color: white;
+}
+
+/* Action button */
+.action-btn {
+    padding: 5px 10px;
+    background: rgb(244, 250, 46);
+    color: black;
+    border-radius: 4px;
+    text-decoration: none;
+}
+/* Action buttons container */
+.actions {
+    display: flex;
+    justify-content: flex-start; /* move to right side */
+    gap: 10px; /* space between buttons */
+    margin-bottom: 15px;
+}
+
+/* Button style */
+.btn {
+    padding: 8px 15px;
+    background: #25a142;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.btn:hover {
+    background: #218838;
+}

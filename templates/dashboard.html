@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="dashboard">
+    <h2>Dashboard</h2>
+
+    <div class="stats">
+        <div class="card">Total: {{total}}</div>
+        <div class="card">Completed: {{completed}}</div>
+        <div class="card">Pending: {{pending}}</div>
+        <div class="card">Overdue: {{overdue}}</div>
+    </div>
+
+    {% if role == 'admin' %}
+    <div class="actions">
+        <a href="/create_project" class="btn">+ Create Project</a>
+        <a href="/create_task" class="btn">+ Create Task</a>
+    </div>
+    {% endif %}
+
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Status</th>
+            <th>Assigned To</th>
+            <th>Action</th>
+        </tr>
+
+        {% for t in tasks %}
+        <tr>
+            <td>{{t.title}}</td>
+            <td>{{t.status}}</td>
+            <td>{{t.assigned_user}}</td>
+            <td>
+                <a class="action-btn" href="/update_status/{{t.id}}">
+                    Update
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <a href="/logout">Logout</a>
+</div>
+
+</body>
+</html>
