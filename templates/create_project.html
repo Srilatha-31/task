@@ -16,13 +16,7 @@
         <!-- Project Name -->
         <input type="text" name="name" placeholder="Project Name" required>
 
-        <!-- OPTIONAL: Add Members -->
-        <label>Select Members (Optional):</label>
-        <select name="members" multiple>
-            {% for user in users %}
-            <option value="{{ user.id }}">{{ user.name }}</option>
-            {% endfor %}
-        </select>
+        
 
         <button type="submit">Create Project</button>
 
