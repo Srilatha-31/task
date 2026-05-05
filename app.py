@@ -108,22 +108,47 @@ def create_project():
     if session.get('role') != 'admin':
         return "Access Denied"
 
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    # GET request → show users
+    if request.method == 'GET':
+        cursor.execute("SELECT id, name FROM users")
+        users = cursor.fetchall()
+        conn.close()
+        return render_template('create_project.html', users=users)
+
+    # POST request → create project
     if request.method == 'POST':
         name = request.form['name']
+        members = request.form.getlist('members')  # list of selected users
 
-        conn = get_db_connection()
-        cursor = conn.cursor()
-
+        # Insert project
         cursor.execute(
-            "INSERT INTO projects (name,created_by) VALUES (%s,%s)",
+            "INSERT INTO projects (name, created_by) VALUES (%s, %s)",
             (name, session['user_id'])
         )
+
+        # Get project ID
+        project_id = cursor.lastrowid
+
+        # Add creator as member
+        cursor.execute(
+            "INSERT INTO project_members (user_id, project_id) VALUES (%s, %s)",
+            (session['user_id'], project_id)
+        )
+
+        # Add selected members
+        for member in members:
+            cursor.execute(
+                "INSERT INTO project_members (user_id, project_id) VALUES (%s, %s)",
+                (member, project_id)
+            )
+
         conn.commit()
         conn.close()
 
         return redirect('/dashboard')
-
-    return render_template('create_project.html')
 
 # ---------------- TASK ---------------- #
 
@@ -132,30 +157,40 @@ def create_task():
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
 
-    cursor.execute("SELECT * FROM users")
-    users = cursor.fetchall()
+    # ---------------- GET ---------------- #
+    if request.method == 'GET':
+        cursor.execute("SELECT id, name FROM projects")
+        projects = cursor.fetchall()
 
-    cursor.execute("SELECT * FROM projects")
-    projects = cursor.fetchall()
+        # Initially show all users (before selecting project)
+        cursor.execute("SELECT id, name FROM users")
+        users = cursor.fetchall()
 
+        conn.close()
+        return render_template('create_task.html', users=users, projects=projects)
+
+    # ---------------- POST ---------------- #
     if request.method == 'POST':
         title = request.form['title']
         desc = request.form['description']
         deadline = request.form['deadline']
         assigned_to = request.form['assigned_to']
         project_id = request.form['project_id']
+        priority = request.form['priority']   # ✅ NEW
 
         cursor.execute("""
-            INSERT INTO tasks (title,description,deadline,assigned_to,project_id)
-            VALUES (%s,%s,%s,%s,%s)
-        """, (title,desc,deadline,assigned_to,project_id))
+            INSERT INTO tasks 
+            (title, description, deadline, assigned_to, project_id, priority)
+            VALUES (%s,%s,%s,%s,%s,%s)
+        """, (title, desc, deadline, assigned_to, project_id, priority))
 
         conn.commit()
         conn.close()
 
         return redirect('/dashboard')
 
-    return render_template('create_task.html', users=users, projects=projects)
+
+# ---------------- UPDATE STATUS ---------------- #
 
 @app.route('/update_status/<int:id>')
 def update_status(id):

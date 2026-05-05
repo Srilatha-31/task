@@ -4,36 +4,58 @@
     <title>Create Task</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
 
 <div class="container">
+
     <h2>Create Task</h2>
 
     <form method="POST">
+
+        <!-- Title -->
         <input type="text" name="title" placeholder="Title" required>
 
+        <!-- Description -->
         <textarea name="description" placeholder="Description"></textarea>
 
+        <!-- Deadline -->
+        <label>Deadline:</label>
         <input type="date" name="deadline">
 
+        <!-- Priority -->
+        <label>Priority:</label>
+        <select name="priority">
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+        </select>
+
+        <!-- Assign User -->
         <label>Assign To:</label>
         <select name="assigned_to">
             {% for u in users %}
-            <option value="{{u.id}}">{{u.name}}</option>
+            <option value="{{ u.id }}">{{ u.name }}</option>
             {% endfor %}
         </select>
 
+        <!-- Project -->
         <label>Project:</label>
         <select name="project_id">
             {% for p in projects %}
-            <option value="{{p.id}}">{{p.name}}</option>
+            <option value="{{ p.id }}">{{ p.name }}</option>
             {% endfor %}
         </select>
 
+        <!-- Submit -->
         <button type="submit">Create Task</button>
+
     </form>
 
-    <a href="/dashboard">Back to Dashboard</a>
+    <br>
+
+    <a href="/dashboard">⬅ Back to Dashboard</a>
+
 </div>
 
 </body>
